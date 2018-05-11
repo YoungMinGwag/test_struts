@@ -13,11 +13,16 @@
 		<result name="input">/upload/fileUpload.jsp</result>
 		<result>/upload/fileUploadOK.jsp</result>
 	</action>
-
+</package>
 
 <package name="file2" extends="structs-default">
         <action name="multiUploadListForm">
-                <result>/upload/multiUploadList.jsp</result>
-        </action>
+		<result>/upload/multiUploadList.jsp</result>
+	</action>
+
+	<action name="multiUploadListAction" class="file.multiUploadListAction" method="upload">
+		<result>/upload/multiUploadListOK.jsp</result>
+	</action>
 </package>
+
 </struts>
