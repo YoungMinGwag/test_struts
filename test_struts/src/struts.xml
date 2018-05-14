@@ -1,28 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE struts PUBLIC
-"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
-"http://struts.apache.org/dtds/struts-2.0.dtd">
-
-<struts>
-<package name="file" extends="struts-default">
-	<action name="fileUploadForm" class="file.fileUploadAction">
-		<result>/upload/fileUpload.jsp</result>
-	</action>
-
-	<action name="fileUploadAction" class="file.fileUploadAction" method="upload">
-		<result name="input">/upload/fileUpload.jsp</result>
-		<result>/upload/fileUploadOK.jsp</result>
-	</action>
+ <!DOCTYPE struts PUBLIC
+ "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+ "http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+ <struts>
+ <package name="file" extends="struts-default">
+ 	<action name="fileUploadForm" class="file.fileUploadAction">
+ 		<result>/upload/fileUpload.jsp</result>
+ 	</action>
+ 
+ 	<action name="fileUploadAction" class="file.fileUploadAction" method="upload">
+ 		<result name="input">/upload/fileUpload.jsp</result>
+ 		<result>/upload/fileUploadOK.jsp</result>
+ 	</action>
+ </package>
+ 
+ <package name="file2" extends="structs-default">
+         <action name="multiUploadListForm">
+ 		<result>/upload/multiUploadList.jsp</result>
+ 	</action>
+ 
+ 	<action name="multiUploadListAction" class="file.multiUploadListAction" method="upload">
+ 		<result>/upload/multiUploadListOK.jsp</result>
+ 	</action>
+ </package>
+ 
+<package name="file4" extends="struts-default">
+	<action name="fileDownloadForm" class="file.fileDownloadAction">
+		    <result>/upload/fileDownload.jsp</result>
+	</action>		
+		
+	<action name="fileDownloadAction" class="file.fileDownloadAction">
+		<result name="success" type="stream">
+			<param name="contentType">binary/octet-stream</param>
+		        <param name="inputName">inputStream</param>
+		        <param name="contentDisposition">${contentDisposition}</param>
+		         <param name="contentLength">${contentLength}</param> 
+		         <param name="bufferSize">4096</param>
+            	</result>
+	</action>	
 </package>
 
-<package name="file2" extends="structs-default">
-        <action name="multiUploadListForm">
-		<result>/upload/multiUploadList.jsp</result>
+<package name="file5" extends="struts-default">
+	<action name="asyncUploadForm">
+		<result>/upload/asyncUploadForm.jsp</result>
+	</action>
+		
+	<action name="asyncUploadAction" class="file.asyncFileAction" method="upload">
+		<result>/upload/asyncUploadList.jsp</result>			
+	</action>
+		
+	<action name="asyncUploadList" class="file.asyncFileAction" method="uploadList">
+		<result>/upload/asyncUploadList.jsp</result>
 	</action>
 
-	<action name="multiUploadListAction" class="file.multiUploadListAction" method="upload">
-		<result>/upload/multiUploadListOK.jsp</result>
-	</action>
+	<action name="asyncDownloadAction" class="file.asyncFileAction" method="download">
+    		<result name="success" type="stream">
+                	<param name="contentType">binary/octet-stream</param>
+                	<param name="inputName">inputStream</param>
+                	<param name="contentDisposition">${contentDisposition}</param>
+                	<param name="contentLength">${contentLength}</param> 
+                	<param name="bufferSize">4096</param>
+		</result>
+    	</action>
 </package>
 
-</struts>
+<package name="struts2" extends="struts-default">          
+      <action name="add" class="staticParams.action.SumAction">
+  		<param name="num1">9</param>
+		<param name="num2">9</param>        
+		<interceptor-ref name="staticParams"/>
+        <result>/staticParams/result.jsp</result>
+      </action>      
+</package>
+
+    <package name="struts3" extends="struts-default">              
+      <action name="checkbox" class="checkbox.action.CheckBoxAction">      
+		<interceptor-ref name="checkbox">
+		    <param name="uncheckedValue">false</param>
+		</interceptor-ref>		
+		<interceptor-ref name="checkbox"/>
+		<interceptor-ref name="prepare"/>
+		<interceptor-ref name="modelDriven"/>
+		<interceptor-ref name="params"/>		
+        <result>/checkbox/result.jsp</result>
+      </action>      
+    </package>
+    
+    <package name="struts4" extends="struts-default">
+      <interceptors>
+	    <interceptor name="loginDao" class="servletConfig.interceptor.LoginDAOInterceptor"/>
+	  </interceptors>     
+	     
+      <action name="login" class="servletConfig.action.LoginAction">
+        <interceptor-ref name="prepare"/>
+        <interceptor-ref name="modelDriven"/>
+        <interceptor-ref name="params"/>
+        <interceptor-ref name="loginDao"/>
+        <interceptor-ref name="servletConfig"/>
+        <result>/servletConfig/login_ok.jsp</result>
+        <result name="login">/servletConfig/login.jsp</result>
+      </action>      
+    </package>
+    
+    <package name="struts5" extends="struts-default">
+      <action name="login" class="login4.action.LoginAction">
+        <interceptor-ref name="params"/>
+        <result name="success" type="redirect">/login/login_ok.jsp?id=${id}</result>
+        <result name="login">/login/login.jsp</result>
+      </action>    
+    </package>
+    
+    <package name="struts6" extends="struts-default">
+      <action name="member" class="chain.action.MemberAction">
+        <interceptor-ref name="prepare"/>
+        <interceptor-ref name="modelDriven"/>
+        <interceptor-ref name="params"/>
+        <result name="success" type="chain">
+          <param name="actionName">login</param>
+        </result>
+        <result name="login">/login/login.jsp</result>
+      </action> 
+      <action name="login" class="chain.action.LoginAction">
+        <interceptor-ref name="chain"/>
+        <interceptor-ref name="params"/>
+        <result name="success">/login/login_ok.jsp</result>
+        <result name="login">/login/login.jsp</result>
+      </action>   
+    </package>
+    
+    <package name="struts7" extends="struts-default">
+      <action name="download" class="stream.FileDownloadAction">
+        <interceptor-ref name="exception"/>
+        <interceptor-ref name="staticParams"/>
+        <interceptor-ref name="params"/>
+        <param name="dir">C:\java\download</param>
+        <result name="success" type="stream">
+          <param name="inputName">inputStream</param>
+          <param name="contentDisposition">attachment; filename=${fileName}</param>
+          <param name="bufferSize">10240000</param>
+        </result>
+        <result name="error">/stream/fileNotFound.jsp</result>
+        <exception-mapping result="error" exception="java.io.FileNotFoundException"/>
+      </action>       
+    </package>
+    
+
+ </struts> 
