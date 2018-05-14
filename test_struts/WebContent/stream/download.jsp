@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-hello~!!!
+<a href="http://localhost:8080/test_struts/download.action?fileName=abc.jpg">
+파일 다운로드(C:\java\upload\abc.jpg) 
+</a>
 </body>
 </html>
